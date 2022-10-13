@@ -1,0 +1,5 @@
+{
+  "devDependencies": {
+    "@svgr/cli": "^6.4.0"
+  }
+}
