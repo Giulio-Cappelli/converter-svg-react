@@ -19,10 +19,12 @@ const progressBar = new cliProgress.SingleBar({
 //Get list of files from input path
 fs.readdir(inputPath, (err, files) => {
     //Start the progress bar
-    progressBar.start(files.length, 0);
+    progressBar.start(files.length - 1, 0);
 
     //Iterate each file
     files.forEach(file => {
+        if (file === '.gitkeep') { return; }
+
         let fileDetails = fs.lstatSync(path.resolve(inputPath, file));
 
         if (!fileDetails.isDirectory()) {

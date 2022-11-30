@@ -146,3 +146,6 @@ dist
 # Content of input and output folder
 src/input/*
 src/output/*
+# Add .gitkeep
+!src/input/.gitkeep
+!src/output/.gitkeep
