@@ -1,5 +1,13 @@
 {
-  "devDependencies": {
-    "@svgr/cli": "^6.4.0"
+  "type": "module",
+  "scripts": {
+    "start": "node src/convert.js",
+    "old": "src/svg-convert.bash"
+  },
+  "dependencies": {
+    "@svgr/core": "^6.5.1",
+    "@svgr/plugin-jsx": "^6.5.1",
+    "@svgr/plugin-prettier": "^6.5.1",
+    "cli-progress": "^3.11.2"
   }
 }
