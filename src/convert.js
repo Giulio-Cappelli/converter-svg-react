@@ -25,33 +25,29 @@ fs.readdir(inputPath, (err, files) => {
     files.forEach(file => {
         let fileDetails = fs.lstatSync(path.resolve(inputPath, file));
 
-        //Progress bar increment;
-        progressBar.increment();
-
         if (!fileDetails.isDirectory()) {
-            fs.readFile(inputPath + '/' + file, 'utf8', async function (err, data) {
-                if (err) {
-                    return console.log(err);
-                }
+            const fileContent = fs.readFileSync(inputPath + '/' + file, 'utf8');
+            const componentName = file.split('.')[0];
 
-                const componentName = file.split('.')[0];
+            //Convert the svg file in js 
+            const fileJs = transform.sync(
+                fileContent,
+                {
+                    plugins: ['@svgr/plugin-svgo', '@svgr/plugin-jsx', '@svgr/plugin-prettier'],
+                    icon: true,
+                },
+                { componentName: componentName }
+            )
 
-                //Convert the svg file in js 
-                const fileJs = await transform(
-                    data,
-                    {
-                        plugins: ['@svgr/plugin-svgo', '@svgr/plugin-jsx', '@svgr/plugin-prettier'],
-                        icon: true,
-                    },
-                    { componentName: componentName },
-                );
 
-                //Save the converted file in output path
-                const outputName = componentName + '.tsx';
-                fs.writeFile(outputPath + '/' + outputName, fileJs, function (err) {
-                    if (err) return console.log(err);
-                });
-            });
+            //Progress bar increment;
+            progressBar.increment();
+
+            //Save the converted file in output path
+            const outputName = componentName + '.tsx';
+            fs.writeFile(outputPath + '/' + outputName, fileJs, function (err) {
+                if (err) return console.log(err);
+            })
         }
     });
     progressBar.stop();
