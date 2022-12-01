@@ -4,6 +4,11 @@ import cliProgress from 'cli-progress';
 import fs from 'fs';
 import path from 'path';
 
+//Capitalize First Letter
+function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
 //Path of input and output directories
 const inputPath = './src/input';
 const outputPath = './src/output';
@@ -29,7 +34,7 @@ fs.readdir(inputPath, (err, files) => {
 
         if (!fileDetails.isDirectory()) {
             const fileContent = fs.readFileSync(inputPath + '/' + file, 'utf8');
-            const componentName = file.split('.')[0];
+            const componentName = capitalizeFirstLetter(file.split('.')[0]);
 
             //Convert the svg file in js 
             const fileJs = transform.sync(
